@@ -32,7 +32,7 @@ If the `gpu_index` field is left at the default value of `-1`, COLMAP-CL will at
 
 ### Which components of COLMAP-CL are OpenCL-accelerated?
 
-The image feature matching (`colmap exhaustive_matcher`) and dense multiview matching (`colmap patch_match_stereo`) modules of COLMAP have been ported to OpenCL.
+The image feature matching (`colmap exhaustive_matcher`) and dense multiview stereo (`colmap patch_match_stereo`) modules of COLMAP have been ported to OpenCL.
 
 ### Is the OpenCL acceleration as fast as the CUDA or CPU implementation?
 
@@ -42,9 +42,9 @@ For comparison, here are some COLMAP-CL timings for exhaustive feature matching 
 
 | Platform | Time (s) |
 | -------- | -------- |
-| CPU (28-core Xeon) | 313.1 |
-| OpenCL (AMD Vega 56) | 68.7 |
-| OpenCL (NV RTX 2070) | 142.4 |
+| COLMAP-CL CPU (28-core Xeon) | 313.1 |
+| COLMAP-CL OpenCL (NV RTX 2070) | 142.4 |
+| COLMAP-CL OpenCL (AMD Vega 56) | 68.7 |
 
 And comparing COLMAP and COLMAP-CL processing time for multiview stereo (`colmap patch_match_stereo`) on the same dataset (default parameters, `max_image_size`=2000):
 
@@ -54,4 +54,4 @@ And comparing COLMAP and COLMAP-CL processing time for multiview stereo (`colmap
 |COLMAP-CL OpenCL (NV RTX 2070) | 4.527 |
 |COLMAP-CL OpenCL (AMD Vega 56) | 3.423 |
 
-Benchmark timings are of course highly dependent on the input images and input parameters.
+Benchmark timings are of course highly dependent on the input images and input parameters. In general, COLMAP-CL's `patch_match_stereo` processing time grows linearly with the number of source images.
