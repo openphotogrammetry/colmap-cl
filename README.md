@@ -1,2 +1,57 @@
-# COLMAP-CL
-COLMAP-CL: An OpenCL implementation of COLMAP photogrammetry
+COLMAP-CL
+=========
+COLMAP-CL is an OpenCL implementation of the [COLMAP](https://demuc.de/colmap/) photogrammetry software originally developed by Johannes L. Schönberger. COLMAP and COLMAP-CL provide an interface to structure-from-motion (SFM) and dense multiview-stereo (MVS) algorithms for reconstructing 3D models from collections of images. While the original COLMAP required CUDA to achieve accelerated performance, COLMAP-CL is developed with the OpenCL API and can run on a variety of GPU platforms (AMD, Intel, NVIDIA, etc.).
+
+Getting Started
+---------------
+Binary executables for the Windows version of COLMAP-CL can be downloaded from https://github.com/openphotogrammetry/colmap-cl/releases. After saving and unzipping the zip file, COLMAP-CL can be run via the `COLMAP.bat` file. If executed with no parameters, this file will start the GUI.
+
+In the COLMAP-CL GUI interface, novice users usually use the <kbd>Reconstruction | Automatic reconstruction</kbd> menu option to produce a 3D model from their images. Experienced users prefer to use COLMAP-CL via scripts or the command-line interface. We've included some example scripts in the [`scripts/`](scripts) folder that execute the steps of the 3D reconstruction pipeline.
+
+Documentation
+-------------
+COLMAP-CL is simply a port of COLMAP from CUDA to OpenCL, so the original COLMAP documentation still applies to COLMAP-CL. The COLMAP documentation site is at https://colmap.github.io/.
+
+Several introductory videos for using COLMAP are available on YouTube. One such video tutorial focusing on the GUI's automatic reconstruction process is at https://www.youtube.com/watch?v=Zm1mkOi9_1c.
+
+Support
+-------
+For general COLMAP technical support, there is a COLMAP Google Group at https://groups.google.com/forum/#!forum/colmap (colmap@googlegroups.com) and the COLMAP GitHub issue tracker at https://github.com/colmap/colmap.
+
+If your question specifically concerns this OpenCL implementation (COLMAP-CL), please post your question on the COLMAP-CL GitHub at https://github.com/openphotogrammetry/colmap-cl/issues.
+
+Frequently Asked Questions
+--------------------------
+### How can I specify which of my GPUs that COLMAP-CL should use?
+
+In the original CUDA COLMAP, the `gpu_index` field is used to specify which CUDA devices should be used for processing. This same field is used in COLMAP-CL, but with a small difference due to the Platform/Device scheme for referencing OpenCL devices. In COLMAP-CL, your `gpu_index` should be computed by multiplying the platform index by 1000, and adding the device index, i.e. `gpu_index` = *platform* \*1000 + *device*. Both the platform and device indexes start from zero, and can be determined from the `clinfo` command output.
+
+Multiple GPUs can be specified with a comma-separated list. For example, if you want COLMAP-CL to use both the first device of the first platform, and the second device of the second platform, you would set `gpu_index` to the value `0,1001`.
+
+If the `gpu_index` field is left at the default value of `-1`, COLMAP-CL will attempt to use all of the OpenCL devices of types `CL_DEVICE_TYPE_GPU` and `CL_DEVICE_TYPE_ACCELERATOR` that it can detect on your system.
+
+### Which components of COLMAP-CL are OpenCL-accelerated?
+
+The image feature matching (`colmap exhaustive_matcher`) and dense multiview matching (`colmap patch_match_stereo`) modules of COLMAP have been ported to OpenCL.
+
+### Is the OpenCL acceleration as fast as the CUDA or CPU implementation?
+
+Yes, on similar hardware, COLMAP-CL often processes data roughly as fast as the CUDA version, but sometimes faster and sometimes slower. The OpenCL version is optimized differently than CUDA COLMAP, so the performance can differ depending on your particular GPUs and input parameters.
+
+For comparison, here are some COLMAP-CL timings for exhaustive feature matching (`colmap exhaustive_matcher`) of ~100,000 SIFT features from a common photogrammetry bechmarking dataset (ETH3D's *pipes*):
+
+| Platform | Time (s) |
+| -------- | -------- |
+| CPU (28-core Xeon) | 313.1 |
+| OpenCL (AMD Vega 56) | 68.7 |
+| OpenCL (NV RTX 2070) | 142.4 |
+
+And comparing COLMAP and COLMAP-CL processing time for multiview stereo (`colmap patch_match_stereo`) on the same dataset (default parameters, `max_image_size`=2000):
+
+|Platform | Time (min) |
+|-------- | ----------- |
+|COLMAP CUDA (NV RTX 2070) | 7.720 |
+|COLMAP-CL OpenCL (NV RTX 2070) | 4.527 |
+|COLMAP-CL OpenCL (AMD Vega 56) | 3.423 |
+
+Benchmark timings are of course highly dependent on the input images and input parameters.
