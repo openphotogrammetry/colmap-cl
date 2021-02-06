@@ -35,7 +35,7 @@ call %COLMAP_PATH% mapper^
    --Mapper.ba_refine_principal_point 1
 
 set DENSE_DIR=%WORKSPACE_DIR%\dense
-if not exist %SDENSE_DIR% mkdir %DENSE_DIR%
+if not exist %DENSE_DIR% mkdir %DENSE_DIR%
 
 call %COLMAP_PATH% image_undistorter^
    --image_path %IMAGES_DIR%^
