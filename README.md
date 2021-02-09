@@ -6,7 +6,7 @@ Getting Started
 ---------------
 Binary executables for the Windows version of COLMAP-CL can be downloaded from https://github.com/openphotogrammetry/colmap-cl/releases. After saving and unzipping the zip file, COLMAP-CL can be run via the `COLMAP.bat` file. If executed with no parameters, this file will start the GUI.
 
-In the COLMAP-CL GUI interface, novice users usually use the <kbd>Reconstruction | Automatic reconstruction</kbd> menu option to produce a 3D model from their images. Experienced users prefer to use COLMAP-CL via scripts or the command-line interface. We've included some example scripts in the [`scripts/`](scripts) folder that execute the steps of the 3D reconstruction pipeline.
+In the COLMAP-CL GUI interface, novice users usually use the _Reconstruction &rarr; Automatic reconstruction_ menu option to produce a 3D model from their images. Experienced users prefer to use COLMAP-CL via scripts or the command-line interface. We've included some example scripts in the [`scripts/`](scripts) folder that execute the steps of the 3D reconstruction pipeline.
 
 Documentation
 -------------
