@@ -18,8 +18,7 @@ call %COLMAP_PATH% feature_extractor^
    --database_path %WORKSPACE_DIR%\reconstruction.db^
    --image_path %IMAGES_DIR%^
    --ImageReader.camera_model OPENCV^
-   --ImageReader.single_camera 1^
-   --SiftExtraction.use_gpu 0
+   --ImageReader.single_camera 1
 
 call %COLMAP_PATH% exhaustive_matcher^
    --database_path %WORKSPACE_DIR%\reconstruction.db^
