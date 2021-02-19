@@ -38,13 +38,14 @@ The image feature matching (`colmap exhaustive_matcher`) and dense multiview ste
 
 Yes, on similar hardware, COLMAP-CL often processes data roughly as fast as the CUDA version, but sometimes faster and sometimes slower. The OpenCL version is optimized differently than CUDA COLMAP, so the performance can differ depending on your particular GPUs and input parameters.
 
-For comparison, here are some COLMAP-CL timings for exhaustive feature matching (`colmap exhaustive_matcher`) of ~100,000 SIFT features from a common photogrammetry bechmarking dataset (ETH3D's *pipes*):
+For comparison, here are some COLMAP-CL timings for SIFT feature matching (`colmap exhaustive_matcher`) on a common photogrammetry bechmarking dataset (ETH3D's *pipes*, 14 images with ~148,000 total features):
 
 | Platform | Time (s) |
 | -------- | -------- |
-| COLMAP-CL CPU (28-core Xeon) | 313.1 |
-| COLMAP-CL OpenCL (NV RTX 2070) | 142.4 |
-| COLMAP-CL OpenCL (AMD Vega 56) | 68.7 |
+| COLMAP-CL CPU (28-core Xeon)   | 238.5 |
+| COLMAP-CL OpenCL (NV RTX 2070) | 15.42 |
+| COLMAP-CL OpenCL (AMD Vega 56) |  9.42 |
+| COLMAP CUDA (NV RTX 2070)      |  4.44 |
 
 And comparing COLMAP and COLMAP-CL processing time for multiview stereo (`colmap patch_match_stereo`) on the same dataset (default parameters, `max_image_size`=2000):
 
