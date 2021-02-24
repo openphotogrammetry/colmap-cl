@@ -43,8 +43,8 @@ For comparison, here are some COLMAP-CL timings for SIFT feature matching (`colm
 | Platform | Time (s) |
 | -------- | -------- |
 | COLMAP-CL CPU (28-core Xeon)   | 238.5 |
-| COLMAP-CL OpenCL (NV RTX 2070) | 15.42 |
-| COLMAP-CL OpenCL (AMD Vega 56) |  9.42 |
+| COLMAP-CL OpenCL (AMD Vega 56) |  7.68 |
+| COLMAP-CL OpenCL (NV RTX 2070) |  3.54 |
 | COLMAP CUDA (NV RTX 2070)      |  4.44 |
 
 And comparing COLMAP and COLMAP-CL processing time for multiview stereo (`colmap patch_match_stereo`) on the same dataset (default parameters, `max_image_size`=2000):
