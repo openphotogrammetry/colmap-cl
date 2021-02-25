@@ -18,7 +18,7 @@ Support
 -------
 For general COLMAP technical support, there is a COLMAP Google Group at https://groups.google.com/forum/#!forum/colmap (colmap@googlegroups.com) and the COLMAP GitHub issue tracker at https://github.com/colmap/colmap.
 
-If your question specifically concerns this OpenCL implementation (COLMAP-CL), please post your question on the COLMAP-CL GitHub at https://github.com/openphotogrammetry/colmap-cl/issues.
+If your question specifically concerns this OpenCL implementation (COLMAP-CL), please open an issue on the COLMAP-CL GitHub at https://github.com/openphotogrammetry/colmap-cl/issues. We welcome your bug reports, questions, feature requests, and other feedback!
 
 Frequently Asked Questions
 --------------------------
@@ -28,26 +28,26 @@ In the original CUDA COLMAP, the `gpu_index` field is used to specify which CUDA
 
 Multiple GPUs can be specified with a comma-separated list. For example, if you want COLMAP-CL to use both the first device of the first platform, and the second device of the second platform, you would set `gpu_index` to the value `0,1001`.
 
-If the `gpu_index` field is left at the default value of `-1`, COLMAP-CL will attempt to use all of the OpenCL devices of types `CL_DEVICE_TYPE_GPU` and `CL_DEVICE_TYPE_ACCELERATOR` that it can detect on your system.
+If the `gpu_index` field is left at the default value of `-1`, COLMAP-CL will try to automatically choose the best set of OpenCL devices that it can detect on your system.
 
 ### Which components of COLMAP-CL are OpenCL-accelerated?
 
-The image feature matching (`colmap exhaustive_matcher`) and dense multiview stereo (`colmap patch_match_stereo`) modules of COLMAP have been ported to OpenCL.
+The image feature matching (`exhaustive_matcher`, `sequential_matcher`, `spatial_matcher`, `transitive_matcher`, `vocab_tree_matcher`) and dense multiview stereo (`patch_match_stereo`) modules of COLMAP have been ported to OpenCL.
 
-### Is the OpenCL acceleration as fast as the CUDA or CPU implementation?
+### Is the OpenCL acceleration as fast as the CUDA implementation?
 
 Yes, on similar hardware, COLMAP-CL often processes data roughly as fast as the CUDA version, but sometimes faster and sometimes slower. The OpenCL version is optimized differently than CUDA COLMAP, so the performance can differ depending on your particular GPUs and input parameters.
 
-For comparison, here are some COLMAP-CL timings for SIFT feature matching (`colmap exhaustive_matcher`) on a common photogrammetry bechmarking dataset (ETH3D's *pipes*, 14 images with ~148,000 total features):
+For comparison, here are some COLMAP-CL timings for SIFT feature matching (`colmap exhaustive_matcher`) on a common photogrammetry bechmarking dataset (ETH3D's *facade*, 76 images with ~940,000 total features):
 
 | Platform | Time (s) |
-| -------- | -------- |
-| COLMAP-CL CPU (28-core Xeon)   | 238.5 |
-| COLMAP-CL OpenCL (AMD Vega 56) |  7.68 |
-| COLMAP-CL OpenCL (NV RTX 2070) |  3.54 |
-| COLMAP CUDA (NV RTX 2070)      |  4.44 |
+| -------- | -------: |
+| COLMAP-CL CPU (28-core Xeon)   | 9182 |
+| COLMAP-CL OpenCL (AMD Vega 56) |  261 |
+| COLMAP-CL OpenCL (NV RTX 2070) |   69 |
+| COLMAP CUDA (NV RTX 2070)      |   88 |
 
-And comparing COLMAP and COLMAP-CL processing time for multiview stereo (`colmap patch_match_stereo`) on the same dataset (default parameters, `max_image_size`=2000):
+And comparing COLMAP and COLMAP-CL processing time for multiview stereo (`colmap patch_match_stereo`) on the ETH3D *pipes* dataset (default parameters, `max_image_size`=2000):
 
 |Platform | Time (min) |
 |-------- | ----------- |
@@ -55,4 +55,4 @@ And comparing COLMAP and COLMAP-CL processing time for multiview stereo (`colmap
 |COLMAP-CL OpenCL (NV RTX 2070) | 4.527 |
 |COLMAP-CL OpenCL (AMD Vega 56) | 3.423 |
 
-Benchmark timings are of course highly dependent on the input images and input parameters. In general, COLMAP-CL's `patch_match_stereo` processing time grows linearly with the number of source images.
+In general, COLMAP-CL's `patch_match_stereo` processing time grows linearly with the number of source images and is independent of the `PatchMatchStereo.num_samples` argument, whereas COLMAP processing time grows linearly with `PatchMatchStereo.num_samples`.
