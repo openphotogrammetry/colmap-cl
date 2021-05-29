@@ -24,7 +24,7 @@ Frequently Asked Questions
 --------------------------
 ### How can I specify which of my GPUs that COLMAP-CL should use?
 
-In the original CUDA COLMAP, the `gpu_index` field is used to specify which CUDA devices should be used for processing. This same field is used in COLMAP-CL, but with a small difference due to the Platform/Device scheme for referencing OpenCL devices. In COLMAP-CL, your `gpu_index` should be computed by multiplying the platform index by 1000, and adding the device index, i.e. `gpu_index` = *platform* \*1000 + *device*. Both the platform and device indexes start from zero, and can be determined from the `clinfo` command output.
+In the original CUDA COLMAP, the `gpu_index` field can be used to specify which CUDA devices should be used for processing. This same field can be used in COLMAP-CL, but with a small difference due to the Platform/Device scheme for referencing OpenCL devices. In COLMAP-CL, your `gpu_index` should be computed by multiplying the platform index by 1000, and adding the device index, i.e. `gpu_index` = *platform* \*1000 + *device*. Both the platform and device indexes start from zero, and can be determined from the `clinfo` command output.
 
 Multiple GPUs can be specified with a comma-separated list. For example, if you want COLMAP-CL to use both the first device of the first platform, and the second device of the second platform, you would set `gpu_index` to the value `0,1001`.
 
@@ -49,10 +49,9 @@ For comparison, here are some COLMAP-CL timings for SIFT feature matching (`colm
 
 And comparing COLMAP and COLMAP-CL processing time for multiview stereo (`colmap patch_match_stereo`) on the ETH3D *pipes* dataset (default parameters, `max_image_size`=2000):
 
-|Platform | Time (min) |
-|-------- | ----------- |
-|COLMAP CUDA (NV RTX 2070) | 7.720 |
-|COLMAP-CL OpenCL (NV RTX 2070) | 4.527 |
-|COLMAP-CL OpenCL (AMD Vega 56) | 3.423 |
+|Platform | Time (s) |
+|-------- | -------: |
+|COLMAP CUDA (NV RTX 2070)      | 463 |
+|COLMAP-CL OpenCL (NV RTX 2070) | 272 |
+|COLMAP-CL OpenCL (AMD Vega 56) | 205 |
 
-In general, COLMAP-CL's `patch_match_stereo` processing time grows linearly with the number of source images and is independent of the `PatchMatchStereo.num_samples` argument, whereas COLMAP processing time grows linearly with `PatchMatchStereo.num_samples`.
