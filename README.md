@@ -22,6 +22,14 @@ If your question specifically concerns this OpenCL implementation (COLMAP-CL), p
 
 Frequently Asked Questions
 --------------------------
+### Does COLMAP-CL produce textured meshes?
+
+COLMAP-CL does not perform texture mapping, although it can output 3D meshes and point clouds with per-vertex colors. If you desire textured meshes, we recommend using our [MeshroomCL](https://github.com/openphotogrammetry/meshroomcl) software instead of COLMAP-CL.
+
+### Is COLMAP-CL available for Linux?
+
+Only Windows binaries for COLMAP-CL are currently available. However, COLMAP-CL can be run in Linux using recent versions of [Wine](https://www.winehq.org/) (6.5 or later). Unfortunately, some of the COLMAP-CL GUI functionality does not work in Wine (bug [#51832](https://bugs.winehq.org/show_bug.cgi?id=51832)), but the command-line interface seems to work fine.
+
 ### How can I specify which of my GPUs that COLMAP-CL should use?
 
 In the original CUDA COLMAP, the `gpu_index` field can be used to specify which CUDA devices should be used for processing. This same field can be used in COLMAP-CL, but with a small difference due to the Platform/Device scheme for referencing OpenCL devices. In COLMAP-CL, your `gpu_index` should be computed by multiplying the platform index by 1000, and adding the device index, i.e. `gpu_index` = *platform* \*1000 + *device*. Both the platform and device indexes start from zero, and can be determined from the `clinfo` command output.
