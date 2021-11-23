@@ -28,7 +28,7 @@ COLMAP-CL does not perform texture mapping, although it can output 3D meshes and
 
 ### Is COLMAP-CL available for Linux?
 
-Only Windows binaries for COLMAP-CL are currently available. However, COLMAP-CL can be run in Linux using recent versions of [Wine](https://www.winehq.org/) (6.5 or later). Unfortunately, some of the COLMAP-CL GUI functionality does not work in Wine (bug [#51832](https://bugs.winehq.org/show_bug.cgi?id=51832)), but the command-line interface seems to work fine.
+Only Windows binaries for COLMAP-CL are currently available. However, COLMAP-CL can be run in Linux using recent versions of [Wine](https://www.winehq.org/) (6.22 or later).
 
 ### How can I specify which of my GPUs that COLMAP-CL should use?
 
